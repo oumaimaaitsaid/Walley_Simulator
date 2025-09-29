@@ -49,7 +49,14 @@ public class MempoolService {
 		return "0x" + base.substring(0, 40);
 	}
 
-	
+	/**
+	 * retourne toutes les transactions en attente
+	 */
+
+	public List<Transaction> getPendingTrans() {
+		return pendingTrans.stream().filter(tr -> tr.getStatus() == Status.PENDING).collect(Collectors.toList());
+	}
+
 	
 
 	
