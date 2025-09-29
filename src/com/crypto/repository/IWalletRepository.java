@@ -29,7 +29,11 @@ public interface IWalletRepository {
      */
     Optional<Wallet> findByAddress(String address);
 
-  
+    /**
+     * Récupère tous les wallets existants.
+     * @return une liste de tous les wallets
+     */
+    List<Wallet> findAll();
 
  
    
