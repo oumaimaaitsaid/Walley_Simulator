@@ -18,7 +18,27 @@ public class MempoolService {
 		this.pendingTrans = new ArrayList<>();
 	}
 
-	
+	/**
+	 * génerer les transactions aleatoire pour simuler le pool
+	 **/
+
+	public void generateRandomTrans(int count) {
+		for (int i = 0; i < count; i++) {
+			Transaction tr = new Transaction();
+
+			tr.setTxUuid(IdGenerator.generateUUID());
+			tr.setWalletId(IdGenerator.generateUUID());
+			tr.setDestinationAddress(generateEthereumAddress());
+			tr.setAmount(Math.random() * 1000);
+			tr.setFees(Math.random() * 100);
+			tr.setPriority(Priority.values()[new Random().nextInt(Priority.values().length)]);
+			tr.setStatus(Status.PENDING);
+			tr.setCreatedAt(java.time.LocalDateTime.now());
+
+			pendingTrans.add(tr);
+
+		}
+	}
 
 	
 	
