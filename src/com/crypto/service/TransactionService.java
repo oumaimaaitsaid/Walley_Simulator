@@ -59,7 +59,11 @@ public class TransactionService implements ITransactionsService {
 		return TransactionRepository.findByWallet(walletId);
 	}
 
-	
+	@Override
+	public List<Transaction> getAllPendingTransactions() {
+		return TransactionRepository.findAllPending();
+	}
+
 
 
 }
