@@ -69,5 +69,9 @@ public class TransactionService implements ITransactionsService {
 		return TransactionRepository.updateStatus(Uuid, newStatus);
 	}
 
+	@Override
+	public boolean deleteTransaction(UUID txUuid) {
+		return TransactionRepository.delete(txUuid);
+	}
 
 }
