@@ -43,5 +43,10 @@ public interface IWalletRepository {
      */
     boolean updateBalance(UUID uuid, double newBalance);
 
-   
+    /**
+     * Supprime un wallet par son UUID.
+     * @param uuid identifiant unique du wallet
+     * @return true si la suppression a réussi, false sinon
+     */
+    boolean delete(UUID uuid);
 }
