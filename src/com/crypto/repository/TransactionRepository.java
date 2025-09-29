@@ -76,6 +76,27 @@ public class TransactionRepository implements ITransactionRepository {
 		return Optional.empty();
 	};
 
+	/**
+	 * trouver transactions du wallet
+	 */
+
+	public List<Transaction> findByWallet(UUID walletId) {
+		List<Transaction> transactions = new ArrayList<>();
+		String sql = "SELECT * FROM transactions WHERE wallet_id =? ";
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setObject(1, walletId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				transactions.add(mapToTransaction(rs));
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return transactions;
+	}
 
 	
 	
