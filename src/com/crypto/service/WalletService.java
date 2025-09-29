@@ -57,5 +57,10 @@ public class WalletService  implements IWalletService {
 		return walletRepository.updateBalance(walletUuid, newBalance);
 	}
 
+	@Override
+	public Boolean deleteWallet(UUID walletUuid) {
+		return walletRepository.delete(walletUuid);
+
+	}
 
 }
