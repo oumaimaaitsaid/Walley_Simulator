@@ -141,7 +141,22 @@ public class TransactionRepository implements ITransactionRepository {
 
 	}
 
-	
+	/**
+	 * delete une transaction
+	 */
+
+	public boolean delete(UUID id) {
+		String sql = "DELETE FROM transactions WHERE tx_uuid= ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setObject(1, id);
+			int rows = stmt.executeUpdate();
+			return rows > 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 
 }
