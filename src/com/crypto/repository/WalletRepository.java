@@ -59,7 +59,25 @@ public class WalletRepository implements IWalletRepository {
 		return Optional.empty();
 	}
 
-	
+	/**
+	 * Recherche un wallet par son adresse
+	 */
+	@Override
+	public Optional<Wallet> findByAddress(String address) {
+		String sql = "SELECT * FROM wallets WHERE address = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, address);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Wallet wallet = mapResultSetToWallet(rs);
+				return Optional.of(wallet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Optional.empty();
+	}
+
 
 	
 
