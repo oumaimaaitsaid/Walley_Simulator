@@ -188,6 +188,8 @@ public class MempoolService {
 	    lines.add("└────────────────────────────────────────────┴─────────┘");
 	    return lines;
 	}
-	
+	public void clearMempool() {
+	    pendingTrans.clear();
+	}
 
 }
