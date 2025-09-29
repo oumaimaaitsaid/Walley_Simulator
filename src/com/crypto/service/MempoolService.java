@@ -106,5 +106,39 @@ public class MempoolService {
 		return position * 10;
 	}
 
+	/**
+	 * Comparer les 3 niveaux de frais pour une transaction
+	 */
+
+	public List<String> compareFeeLevels(double amount) {
+		List<String> lines = new ArrayList<>();
+
+		for (Priority priority : Priority.values()) {
+
+			double fee = calculateFee(amount, priority);
+
+			Transaction tmp = new Transaction();
+			tmp.setTxUuid(IdGenerator.generateUUID());
+			tmp.setAmount(amount);
+			tmp.setFees(fee);
+			tmp.setPriority(priority);
+			tmp.setStatus(Status.PENDING);
+
+			pendingTrans.add(tmp);
+
+			int position = getTransactionPosition(tmp.getTxUuid());
+			int estimatedTime = position * 10;
+
+			String line = String.format("%-12s | %-10.2f |%-10d | %-10d min", priority, fee, position, estimatedTime);
+
+			lines.add(line);
+
+			pendingTrans.removeIf(tr -> tr.getTxUuid().equals(tmp.getTxUuid()));
+
+		}
+
+		return lines;
+	}
+
 	
 }
