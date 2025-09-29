@@ -15,7 +15,12 @@ public interface IWalletRepository {
      */
     Wallet save(Wallet wallet);
 
-
+    /**
+     * Recherche un wallet par son UUID.
+     * @param uuid identifiant unique du wallet
+     * @return un Optional contenant le wallet si trouvé, sinon Optional.empty()
+     */
+    Optional<Wallet> findByUuid(UUID uuid);
 
   
 
