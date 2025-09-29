@@ -54,7 +54,11 @@ public class TransactionService implements ITransactionsService {
 		return TransactionRepository.findById(txUuid);
 	}
 
-	
+	@Override
+	public List<Transaction> getTransactionsByWallet(UUID walletId) {
+		return TransactionRepository.findByWallet(walletId);
+	}
+
 	
 
 
