@@ -49,6 +49,11 @@ public class TransactionService implements ITransactionsService {
 		return TransactionRepository.save(tr);
 	}
 
+	@Override
+	public Optional<Transaction> getTransactionById(UUID txUuid) {
+		return TransactionRepository.findById(txUuid);
+	}
+
 	
 	
 
