@@ -64,6 +64,10 @@ public class TransactionService implements ITransactionsService {
 		return TransactionRepository.findAllPending();
 	}
 
+	@Override
+	public boolean updateTransactionStatus(UUID Uuid, Status newStatus) {
+		return TransactionRepository.updateStatus(Uuid, newStatus);
+	}
 
 
 }
