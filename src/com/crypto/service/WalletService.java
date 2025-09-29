@@ -43,7 +43,11 @@ public class WalletService  implements IWalletService {
 		return walletRepository.findByUuid(walletUuid);
 	}
 
-	
+	@Override
+	public List<Wallet> getAllWallets() {
+		return walletRepository.findAll();
+	}
+
 
 
 }
