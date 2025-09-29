@@ -12,7 +12,17 @@ public class AddressGenerator {
     /**
      * Génére une address pour un type de wallet
      */
-  
+    public static String generateAddress(WalletType type) {
+        switch(type) {
+            case BITCOIN:
+                return "BTC-" + randomString(30);
+            case ETHEREUM:
+                return "ETH-" + randomString(30);
+            default:
+                throw new IllegalArgumentException("Type de wallet inconnu : " + type);
+        }
+    }
+    
     private static String randomString(int length) {
     	Random random =new Random();
     	StringBuilder sb =new StringBuilder();
