@@ -113,7 +113,21 @@ public class WalletRepository implements IWalletRepository {
 		}
 	}
 
-}
+	/**
+	 * Supprime un wallet par UUID
+	 */
+	@Override
+	public boolean delete(UUID uuid) {
+		String sql = "DELETE FROM wallets WHERE wallet_uuid = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setObject(1, uuid);
+			int rows = stmt.executeUpdate();
+			return rows > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	
 
