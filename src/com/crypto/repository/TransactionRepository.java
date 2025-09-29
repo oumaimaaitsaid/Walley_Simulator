@@ -120,7 +120,27 @@ public class TransactionRepository implements ITransactionRepository {
 
 	}
 
-	
+	/**
+	 * mis à jours la status d'un transaction
+	 */
+	public boolean updateStatus(UUID id, Status status) {
+
+		String sql = "UPDATE transactions SET status = ? WHERE tx_uuid = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+			stmt.setString(1, status.name());
+			stmt.setObject(2, id);
+
+			int rows = stmt.executeUpdate();
+			return rows > 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
 	
 
 
