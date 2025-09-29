@@ -48,6 +48,14 @@ public class WalletService  implements IWalletService {
 		return walletRepository.findAll();
 	}
 
+	@Override
+	public Boolean updateBalance(UUID walletUuid, double newBalance) {
+		if (newBalance < 0) {
+			System.err.println("votre solde est négatif");
+			return false;
+		}
+		return walletRepository.updateBalance(walletUuid, newBalance);
+	}
 
 
 }
