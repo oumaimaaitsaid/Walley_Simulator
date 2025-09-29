@@ -57,7 +57,13 @@ public class MempoolService {
 		return pendingTrans.stream().filter(tr -> tr.getStatus() == Status.PENDING).collect(Collectors.toList());
 	}
 
-	
+	/**
+	 * ajouter une nouvelle transaction dans le mempool
+	 */
+
+	public void addTransaction(Transaction tr) {
+		pendingTrans.add(tr);
+	}
 
 	
 	
