@@ -22,7 +22,12 @@ public interface IWalletRepository {
      */
     Optional<Wallet> findByUuid(UUID uuid);
 
-  
+    /**
+     * Recherche un wallet par son adresse crypto.
+     * @param address adresse publique du wallet
+     * @return un Optional contenant le wallet si trouvé, sinon Optional.empty()
+     */
+    Optional<Wallet> findByAddress(String address);
 
   
 
