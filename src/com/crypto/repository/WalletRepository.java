@@ -96,7 +96,23 @@ public class WalletRepository implements IWalletRepository {
 		return wallets;
 	}
 
-	
+	/**
+	 * Met à jour le solde d’un wallet
+	 */
+	@Override
+	public boolean updateBalance(UUID uuid, double newBalance) {
+		String sql = "UPDATE wallets SET balance = ? WHERE wallet_uuid = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setDouble(1, newBalance);
+			stmt.setObject(2, uuid);
+			int rows = stmt.executeUpdate();
+			return rows > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
 
 	
