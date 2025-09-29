@@ -98,7 +98,28 @@ public class TransactionRepository implements ITransactionRepository {
 		return transactions;
 	}
 
-	
+	/**
+	 * retourner tout les transactions avec la status Pending
+	 */
+
+	public List<Transaction> findAllPending() {
+		List<Transaction> transactions = new ArrayList<>();
+		String sql = "SELECT * FROM transactions WHERE status = 'PENDING'";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				transactions.add(mapToTransaction(rs));
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return transactions;
+
+	}
+
 	
 	
 
