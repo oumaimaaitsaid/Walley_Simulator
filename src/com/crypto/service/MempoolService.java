@@ -73,7 +73,26 @@ public class MempoolService {
 		pendingTrans.removeIf(tr -> tr.getTxUuid().equals(txUuid));
 	}
 
-	
+	/**
+	 * calculer la position d un transaction dans la mempool
+	 * 
+	 * @param txUuid
+	 * @return
+	 */
+	public int getTransactionPosition(UUID txUuid) {
+
+		List<Transaction> sorted = pendingTrans.stream().filter(tr -> tr.getStatus() == Status.PENDING)
+				.sorted((a, b) -> Double.compare(b.getFees(), a.getFees())).collect(Collectors.toList());
+
+		for (int i = 0; i < sorted.size(); i++) {
+			if (sorted.get(i).getTxUuid().equals(txUuid)) {
+				return i + 1;
+			}
+		}
+
+		return -1;
+
+	}
 
 	
 
