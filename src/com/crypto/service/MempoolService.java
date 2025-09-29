@@ -65,7 +65,14 @@ public class MempoolService {
 		pendingTrans.add(tr);
 	}
 
-	
+	/**
+	 * Supprimer un e transaction du mempool
+	 */
+
+	public void removeTransactio(UUID txUuid) {
+		pendingTrans.removeIf(tr -> tr.getTxUuid().equals(txUuid));
+	}
+
 	
 
 	
