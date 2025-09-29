@@ -24,6 +24,18 @@ public class WalletService  implements IWalletService {
 		this.walletRepository = new WalletRepository();
 	}
 
+	@Override
+	public Wallet createWallet(WalletType type) {
+
+		Wallet wallet = new Wallet();
+		wallet.setWalletUuid(IdGenerator.generateUUID());
+		wallet.setType(type);
+		wallet.setAddress(AddressGenerator.generateAddress(type));
+		wallet.setBalance(0.0);
+		wallet.setCreatedAt(java.time.LocalDateTime.now());
+
+		return walletRepository.save(wallet);
+	}
 
 	
 
