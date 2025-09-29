@@ -52,6 +52,29 @@ public class TransactionRepository implements ITransactionRepository {
 
 	}
 
+	/**
+	 * Recherche par ID
+	 */
+
+	public Optional<Transaction> findById(UUID id) {
+
+		String sql = "SELECT * FROM transactions WHERE tx_uuid =?";
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+			stmt.setObject(1, id);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				Transaction transaction = mapToTransaction(rs);
+				return Optional.of(transaction);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Optional.empty();
+	};
 
 
 	
