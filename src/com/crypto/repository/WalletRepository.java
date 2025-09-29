@@ -17,7 +17,7 @@ public class WalletRepository implements IWalletRepository {
 	}
 
 	/**
-	 * souvegardé un wallet en base de données
+	 * souvgardé un wallet en base de données
 	 */
 	@Override
 	public Wallet save(Wallet wallet) {
@@ -42,7 +42,23 @@ public class WalletRepository implements IWalletRepository {
 		}
 	}
 
-	
+	@Override
+	public Optional<Wallet> findByUuid(UUID uuid) {
+		String sql = "SELECT * FROM wallets WHERE wallet_uuid = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setObject(1, uuid);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Wallet wallet = mapResultSetToWallet(rs);
+				return Optional.of(wallet);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Optional.empty();
+	}
+
 	
 
 	
