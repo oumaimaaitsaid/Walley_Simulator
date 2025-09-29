@@ -23,6 +23,32 @@ public class TransactionService implements ITransactionsService {
 		this.walletRepository = new WalletRepository();
 	}
 
+	@Override
+	public Transaction createTransaction(UUID waletId, String destinationAddress, double amount, double fees,
+			Priority priority) {
+		if (amount <= 0) {
+			throw new IllegalArgumentException("le montant doit ètre positif");
+		}
+		if (destinationAddress == null || destinationAddress.isEmpty()) {
+			throw new IllegalArgumentException("Adress de detination invalide.");
+		}
+		wallet sourceWallet = walletRepository.findByUuid(waletId)
+				.orElseThrow(() -> new IllegalArgumentException("Wallet source introuvable !"));
+
+		Transaction tr = new Transaction();
+		tr.setTxUuid(IdGenerator.generateUUID());
+		tr.setWalletId(waletId);
+		tr.setSourceAddress(sourceWallet.getAddress());
+		tr.setDestinationAddress(destinationAddress);
+		tr.setAmount(amount);
+		tr.setFees(fees);
+		tr.setPriority(priority);
+		tr.setStatus(Status.PENDING);
+		tr.setCreatedAt(java.time.LocalDateTime.now());
+
+		return TransactionRepository.save(tr);
+	}
+
 	
 	
 
