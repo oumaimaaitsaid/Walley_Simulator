@@ -129,6 +129,18 @@ public class WalletRepository implements IWalletRepository {
 		}
 	}
 
-	
+	/**
+	 * Méthode utilitaire pour mapper ResultSet en Wallet
+	 */
+	private Wallet mapResultSetToWallet(ResultSet rs) throws SQLException {
+		Wallet wallet = new Wallet();
+		wallet.setId(rs.getInt("id"));
+		wallet.setWalletUuid((UUID) rs.getObject("wallet_uuid"));
+		wallet.setType(WalletType.valueOf(rs.getString("type")));
+		wallet.setAddress(rs.getString("address"));
+		wallet.setBalance(rs.getDouble("balance"));
+		wallet.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+		return wallet;
+	}
 
 }
