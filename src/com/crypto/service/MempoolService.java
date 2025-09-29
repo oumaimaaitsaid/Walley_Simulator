@@ -40,7 +40,15 @@ public class MempoolService {
 		}
 	}
 
-	
+	private String generateEthereumAddress() {
+		String base = UUID.randomUUID().toString().replace("-", "");
+
+		while (base.length() < 40) {
+			base += "0";
+		}
+		return "0x" + base.substring(0, 40);
+	}
+
 	
 	
 
