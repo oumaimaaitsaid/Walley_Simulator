@@ -35,6 +35,13 @@ public interface IWalletRepository {
      */
     List<Wallet> findAll();
 
- 
+    /**
+     * Met à jour le solde d’un wallet.
+     * @param uuid identifiant unique du wallet
+     * @param newBalance nouveau solde à enregistrer
+     * @return true si la mise à jour a réussi, false sinon
+     */
+    boolean updateBalance(UUID uuid, double newBalance);
+
    
 }
