@@ -14,6 +14,9 @@ import com.crypto.repository.TransactionRepository;
 import com.crypto.repository.WalletRepository;
 import com.crypto.utils.IdGenerator;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 public class TransactionService implements ITransactionsService {
 
 	private final ITransactionRepository TransactionRepository;
