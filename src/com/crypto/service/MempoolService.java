@@ -94,7 +94,17 @@ public class MempoolService {
 
 	}
 
-	
+	/**
+	 * Estimer le temps de confirmation en minute
+	 */
+
+	public int estimateConfirmationTime(UUID txUuid) {
+
+		int position = getTransactionPosition(txUuid);
+		if (position == -1)
+			return -1;
+		return position * 10;
+	}
 
 	
 }
