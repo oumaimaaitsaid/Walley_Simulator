@@ -140,5 +140,23 @@ public class MempoolService {
 		return lines;
 	}
 
+	/**
+	 * calculer les fees selon la priorité
+	 */
+
+	private double calculateFee(double amount, Priority priority) {
+
+		switch (priority) {
+		case ECONOMIQUE:
+			return amount * 0.01;
+		case STANDARD:
+			return amount * 0.02;
+		case RAPIDE:
+			return amount * 0.03;
+		default:
+			return 0;
+		}
+	}
+
 	
 }
