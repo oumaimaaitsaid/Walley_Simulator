@@ -78,6 +78,26 @@ public class WalletRepository implements IWalletRepository {
 		return Optional.empty();
 	}
 
+	/**
+	 * Liste tous les wallets
+	 */
+	@Override
+	public List<Wallet> findAll() {
+		List<Wallet> wallets = new ArrayList<>();
+		String sql = "SELECT * FROM wallets";
+		try (Statement stmt = connection.createStatement()) {
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				wallets.add(mapResultSetToWallet(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return wallets;
+	}
+
+	
+}
 
 	
 
