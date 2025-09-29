@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.crypto.model.Transaction;
+import com.crypto.model.Wallet;
 import com.crypto.model.Enum.Priority;
 import com.crypto.model.Enum.Status;
 import com.crypto.repository.ITransactionRepository;
@@ -32,7 +33,7 @@ public class TransactionService implements ITransactionsService {
 		if (destinationAddress == null || destinationAddress.isEmpty()) {
 			throw new IllegalArgumentException("Adress de detination invalide.");
 		}
-		wallet sourceWallet = walletRepository.findByUuid(waletId)
+		Wallet sourceWallet = walletRepository.findByUuid(waletId)
 				.orElseThrow(() -> new IllegalArgumentException("Wallet source introuvable !"));
 
 		Transaction tr = new Transaction();
