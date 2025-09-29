@@ -37,7 +37,11 @@ public class WalletService  implements IWalletService {
 		return walletRepository.save(wallet);
 	}
 
-	
+	@Override
+	public Optional<Wallet> getWalletByUuid(UUID walletUuid) {
+
+		return walletRepository.findByUuid(walletUuid);
+	}
 
 	
 
