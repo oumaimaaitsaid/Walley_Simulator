@@ -158,5 +158,20 @@ public class TransactionRepository implements ITransactionRepository {
 		}
 	}
 
+	/**
+	 * Mapper ResultSet ->Transaction
+	 */
 
+	private Transaction mapToTransaction(ResultSet rs) throws SQLException {
+		Transaction tr = new Transaction();
+		tr.setTxUuid((UUID) rs.getObject("tx_uuid"));
+		tr.setWalletId((UUID) rs.getObject("wallet_id"));
+		tr.setDestinationAddress(rs.getString("destination_address"));
+		tr.setAmount(rs.getDouble("amount"));
+		tr.setFees(rs.getDouble("fees"));
+		tr.setPriority(Priority.valueOf(rs.getString("priority")));
+		tr.setStatus(Status.valueOf(rs.getString("status")));
+		tr.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+		return tr;
+	}
 }
