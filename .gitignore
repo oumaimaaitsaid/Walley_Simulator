@@ -1,14 +1,29 @@
-# Compiled class file
+############################
+# Eclipse / IDE
+############################
+.classpath
+.project
+.settings/
+bin/
+out/
+*.launch
+
+
+############################
+# Java / Compilation
+############################
 *.class
-
-# Log file
 *.log
+*.tmp
+*.bak
+hs_err_pid*
 
-# BlueJ files
-*.ctxt
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+############################
+# JAR et librairies locales
+############################
+lib/
+*.jar
 
 # Package Files #
 *.jar

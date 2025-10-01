@@ -54,7 +54,7 @@ public class WalletService implements IWalletService {
 			logger.warning("votre solde est négative");
 			return false;
 		}
-		logger.info("💰 Mise à jour du solde pour wallet " + walletUuid + " -> " + newBalance);
+		logger.info(" Mise à jour du solde pour wallet " + walletUuid + " -> " + newBalance);
 		return walletRepository.updateBalance(walletUuid, newBalance);
 	}
 
