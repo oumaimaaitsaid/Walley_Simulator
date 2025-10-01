@@ -1,10 +1,10 @@
 package com.crypto.service;
 
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import com.crypto.model.Wallet;
 import com.crypto.model.Enum.WalletType;
@@ -13,15 +13,15 @@ import com.crypto.repository.WalletRepository;
 import com.crypto.utils.AddressGenerator;
 import com.crypto.utils.IdGenerator;
 
+public class WalletService implements IWalletService {
 
-
-public class WalletService  implements IWalletService {
-
+	private static final Logger logger = Logger.getLogger(WalletService.class.getName());
 	private final IWalletRepository walletRepository;
 
 	public WalletService() throws SQLException {
 
 		this.walletRepository = new WalletRepository();
+		logger.info("walletService initialisé avec succées");
 	}
 
 	@Override
@@ -51,14 +51,17 @@ public class WalletService  implements IWalletService {
 	@Override
 	public Boolean updateBalance(UUID walletUuid, double newBalance) {
 		if (newBalance < 0) {
-			System.err.println("votre solde est négatif");
+			logger.warning("votre solde est négative");
 			return false;
 		}
+		logger.info("💰 Mise à jour du solde pour wallet " + walletUuid + " -> " + newBalance);
 		return walletRepository.updateBalance(walletUuid, newBalance);
 	}
 
 	@Override
 	public Boolean deleteWallet(UUID walletUuid) {
+		logger.info("suppression du wallet " + walletUuid);
+
 		return walletRepository.delete(walletUuid);
 
 	}

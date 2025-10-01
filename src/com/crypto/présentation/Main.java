@@ -170,6 +170,7 @@ public class Main {
 				System.out.println("Au revoir !");
 				break;
 
+
 			default:
 				logger.log( Level.WARNING,"Choix invalide saisi : {0} " + choice);
 				System.out.println("Choix invalide !");

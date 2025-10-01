@@ -8,7 +8,10 @@ public class AddressGenerator {
 
 	
     private static final String CHARS = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-
+    static Random random =new Random();
+    private AddressGenerator() {
+        throw new UnsupportedOperationException(" instanciation interdite");
+    }
     /**
      * Génére une address pour un type de wallet
      */
@@ -24,7 +27,7 @@ public class AddressGenerator {
     }
     
     private static String randomString(int length) {
-    	Random random =new Random();
+    	
     	StringBuilder sb =new StringBuilder();
     	
     	for(int i = 0; i<length; i++) {

@@ -15,12 +15,12 @@ import com.crypto.repository.WalletRepository;
 import com.crypto.utils.IdGenerator;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 public class TransactionService implements ITransactionsService {
 
 	private final ITransactionRepository TransactionRepository;
 	private final WalletRepository walletRepository;
+	private static final Logger logger = Logger.getLogger(TransactionService.class.getName());
 
 	public TransactionService() throws SQLException {
 		this.TransactionRepository = new TransactionRepository();
@@ -30,14 +30,28 @@ public class TransactionService implements ITransactionsService {
 	@Override
 	public Transaction createTransaction(UUID waletId, String destinationAddress, double amount, double fees,
 			Priority priority) {
-		if (amount <= 0) {
-			throw new IllegalArgumentException("le montant doit ètre positif");
-		}
-		if (destinationAddress == null || destinationAddress.isEmpty()) {
-			throw new IllegalArgumentException("Adress de detination invalide.");
-		}
 		Wallet sourceWallet = walletRepository.findByUuid(waletId)
 				.orElseThrow(() -> new IllegalArgumentException("Wallet source introuvable !"));
+		if (amount <= 0) {
+			logger.warning("le montant doit être positif");
+			throw new IllegalArgumentException("Le montant doit être positif !");
+		}
+		if (destinationAddress == null || destinationAddress.isEmpty()) {
+			logger.warning("Adress de detination invalide.");
+			throw new IllegalArgumentException("Adresse de destination invalide !");
+		}
+		
+		double total =amount+fees;
+		if(sourceWallet.getBalance() < total) {
+			logger.warning("Solde insuffisant. " + sourceWallet.getBalance() +"total" +total );
+			throw new IllegalArgumentException("Solde insuffisant pour cette transaction!");
+			
+		}
+		
+		 double newBalance = sourceWallet.getBalance() - total;
+		    sourceWallet.setBalance(newBalance);
+		    walletRepository.updateBalance(sourceWallet.getWalletUuid(), newBalance);
+		    logger.info("Balance du wallet mise à jour : " + newBalance);
 
 		Transaction tr = new Transaction();
 		tr.setTxUuid(IdGenerator.generateUUID());
@@ -69,8 +83,8 @@ public class TransactionService implements ITransactionsService {
 	}
 
 	@Override
-	public boolean updateTransactionStatus(UUID Uuid, Status newStatus) {
-		return TransactionRepository.updateStatus(Uuid, newStatus);
+	public boolean updateTransactionStatus(UUID uuid, Status newStatus) {
+		return TransactionRepository.updateStatus(uuid, newStatus);
 	}
 
 	@Override
