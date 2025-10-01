@@ -1,10 +1,9 @@
 package test.java.com.crypto.service;
 
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
-import java.util.UUID;
+
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ public class TransactionServiceTest {
 
 	@Test
 	void testCreateTransactionPositiveAmount() {
-		Transaction tx = transactionService.createTransaction(testWallet.getWalletUuid(), "BTC-DEST-1234", 50.0, 0.5,
+		Transaction tx = transactionService.createTransaction(testWallet.getWalletUuid(), "BTC-DEST-1234", 50.0,
 				Priority.STANDARD);
 
 		assertNotNull(tx);
@@ -43,14 +42,10 @@ public class TransactionServiceTest {
 	@Test
 	void testCreateTransactionNegativeAmount() {
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			transactionService.createTransaction(testWallet.getWalletUuid(), "BTC-DEST-1234", -50.0, 0.5,
+			transactionService.createTransaction(testWallet.getWalletUuid(), "BTC-DEST-1234", -50.0,
 					Priority.ECONOMIQUE);
 		});
 
 		assertTrue(exception.getMessage().contains("montant doit être positif"));
 	}
-=======
-public class TransactionServiceTest {
-
->>>>>>> 329df3a04f74ef3bdcf24e051bd347e611878a07
 }

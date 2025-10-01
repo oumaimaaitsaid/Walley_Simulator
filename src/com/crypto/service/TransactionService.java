@@ -28,8 +28,10 @@ public class TransactionService implements ITransactionsService {
 	}
 
 	@Override
-	public Transaction createTransaction(UUID waletId, String destinationAddress, double amount, double fees,
+	public Transaction createTransaction(UUID waletId, String destinationAddress, double amount, 
 			Priority priority) {
+		FeeCalculatorService feeCalculator = new FeeCalculatorService();
+
 		Wallet sourceWallet = walletRepository.findByUuid(waletId)
 				.orElseThrow(() -> new IllegalArgumentException("Wallet source introuvable !"));
 		if (amount <= 0) {
@@ -41,6 +43,7 @@ public class TransactionService implements ITransactionsService {
 			throw new IllegalArgumentException("Adresse de destination invalide !");
 		}
 		
+		double fees = feeCalculator.calculateFee(sourceWallet.getType(), priority);
 		double total =amount+fees;
 		if(sourceWallet.getBalance() < total) {
 			logger.warning("Solde insuffisant. " + sourceWallet.getBalance() +"total" +total );
