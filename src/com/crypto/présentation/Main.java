@@ -75,10 +75,101 @@ public class Main {
 				System.out.println("Adresse: " + wallet.getAddress() + " | UUID: " + wallet.getWalletUuid());
 				break;
 
-		
-		
+			case 2:
+				System.out.print("UUID du wallet source : ");
+				UUID walletId = UUID.fromString(scanner.nextLine());
+				System.out.print("Adresse destination : ");
+				String dest = scanner.nextLine();
+				System.out.print("Montant : ");
+				double amount = scanner.nextDouble();
+				System.out.print("Frais : ");
+				double fees = scanner.nextDouble();
+				scanner.nextLine();
 
-			
+				System.out.print("Priorité (1:ECONOMIQUE/2:STANDARD/3:RAPIDE) : ");
+				int p = scanner.nextInt();
+				scanner.nextLine();
+
+				Priority priority = (p == 1) ? Priority.ECONOMIQUE : (p == 2) ? Priority.STANDARD : Priority.RAPIDE;
+				try {
+					Transaction tx = transactionService.createTransaction(walletId, dest, amount, fees, priority);
+					mempoolService.addTransaction(tx);
+
+					lastUserTxUuid = tx.getTxUuid();
+					logger.info("Transaction créée et ajoutée au mempool : " + tx.getTxUuid());
+				} catch (IllegalArgumentException e) {
+					logger.warning("echec de création la transaction" + e.getMessage());
+
+				}
+
+				break;
+
+			case 3:
+				System.out.print("UUID du wallet : ");
+				UUID wId = UUID.fromString(scanner.nextLine());
+				List<Transaction> txList = transactionService.getTransactionsByWallet(wId);
+				logger.log(Level.INFO,"Consultation des transactions du wallet {0} : " , wId);
+				for (Transaction t : txList) {
+					System.out.println(t.getTxUuid() + " | Montant: " + t.getAmount() + " | Status: " + t.getStatus());
+				}
+
+				break;
+
+			case 4:
+				System.out.print("Montant à comparer : ");
+				double amt = scanner.nextDouble();
+				scanner.nextLine();
+				List<String> results = mempoolService.compareFeeLevels(amt);
+				logger.log(Level.INFO ,"Comparaison des frais effectuée pour montant = {0} " ,amt);
+				System.out.printf("%-12s | %-10s | %-10s | %-10s%n", "Priorité", "Frais", "Position", "Temps estimé");
+				System.out.println("-----------------------------------------------");
+				for (String line : results) {
+					System.out.println(line);
+				}
+				System.out.println("-----------------------------------------------\n");
+				break;
+
+			case 5:
+				
+				mempoolService.generateRandomTrans(15);
+				mempoolService.displayMempoolState(lastUserTxUuid).forEach(System.out::println);
+				logger.info("Mempool affiché avec transactions aléatoires");
+
+				break;
+			case 6:
+				if (lastUserTxUuid == null) {
+					logger.warning("Demande de position sans transaction utilisateur");
+				} else {
+					int position = mempoolService.getTransactionPosition(lastUserTxUuid);
+					int total = mempoolService.getPendingTrans().size();
+					int time = mempoolService.estimateConfirmationTime(lastUserTxUuid);
+
+					if (position == -1) {
+						logger.warning("Transaction utilisateur non trouvée dans mempool");
+					} else {
+
+						System.out.println("\n=== POSITION DANS LE MEMPOOL ===");
+						System.out.println("Votre transaction est en position " + position + " sur " + total);
+						System.out.println("Temps estimé avant confirmation : " + time + " minutes");
+					}
+				}
+				break;
+			case 7:
+				System.out.print("UUID du wallet : ");
+				UUID ID = UUID.fromString(scanner.nextLine());
+				System.out.print("Entrer le nouveau balance : ");
+				double newBalance = scanner.nextDouble();
+				scanner.nextLine();
+				walletService.updateBalance(ID, newBalance);
+
+				break;
+
+			case 0:
+				running = false;
+				logger.info("Arrêt de l'application demandé par l'utilisateur");
+				System.out.println("Au revoir !");
+				break;
+
 
 			default:
 				logger.log( Level.WARNING,"Choix invalide saisi : {0} " + choice);
