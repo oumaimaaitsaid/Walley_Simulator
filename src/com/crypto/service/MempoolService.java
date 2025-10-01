@@ -159,4 +159,37 @@ public class MempoolService {
 	}
 
 	
+	/**
+	 * Retourne l'état actuel du mempool sous forme de liste de chaînes de
+	 * caractères pour que le main puisse l'afficher
+	 */
+	public List<String> displayMempoolState(UUID userTxUuid) {
+		List<Transaction> sorted =pendingTrans.stream()
+				.filter(tr ->tr.getStatus() == Status.PENDING)
+				.sorted(Comparator.comparingDouble(Transaction::getFees).reversed())
+				.collect(Collectors.toList());
+		
+		List<String> lines = new ArrayList<>();
+		lines.add("=== ETAT DU MEMPOOL ===");
+		lines.add("Transactions en attentes :" + sorted.size());
+		lines.add("┌────────────────────────────────────────────┬─────────┐");
+	    lines.add(String.format("│ %-40s │ %-7s │", "Transaction (autres utilisateurs)", "Frais"));
+	    lines.add("├────────────────────────────────────────────┼─────────┤");
+
+	    
+	    for(Transaction tr : sorted) {
+	    	
+	    	String label = tr.getTxUuid().equals(userTxUuid)
+	    			?">>>> Votre tx :" +tr.getDestinationAddress() .substring(0, 10) + "...."
+	    		    : tr.getDestinationAddress().substring(0,10)+ "... (anonyme)";
+	        lines.add(String.format("│ %-40s │ %6.2f$ │", label, tr.getFees()));
+	    }
+
+	    lines.add("└────────────────────────────────────────────┴─────────┘");
+	    return lines;
+	}
+	public void clearMempool() {
+	    pendingTrans.clear();
+	}
+
 }
