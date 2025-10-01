@@ -30,7 +30,7 @@ public interface IWalletService {
 	 * mis à jour le solde
 	 */
 
-	Boolean updateBalance(UUID walletUuid, double nowBalance);
+	Boolean updateBalance(UUID walletUuid, double newBalance);
 
 	/**
 	 * delete un wallet
