@@ -1,5 +1,6 @@
 package test.java.com.crypto.service;
 
+<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
@@ -48,4 +49,8 @@ public class TransactionServiceTest {
 
 		assertTrue(exception.getMessage().contains("montant doit être positif"));
 	}
+=======
+public class TransactionServiceTest {
+
+>>>>>>> 329df3a04f74ef3bdcf24e051bd347e611878a07
 }
