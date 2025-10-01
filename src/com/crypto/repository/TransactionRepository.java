@@ -58,7 +58,7 @@ public class TransactionRepository implements ITransactionRepository {
 
 	public Optional<Transaction> findById(UUID id) {
 
-		String sql = "SELECT * FROM transactions WHERE tx_uuid =?";
+		String sql = "SELECT tx_uuid, wallet_id, destination_address, amount, fees, priority, status, created_at FROM transactions WHERE tx_uuid =?";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
@@ -74,7 +74,7 @@ public class TransactionRepository implements ITransactionRepository {
 			e.printStackTrace();
 		}
 		return Optional.empty();
-	};
+	}
 
 	/**
 	 * trouver transactions du wallet
@@ -82,7 +82,7 @@ public class TransactionRepository implements ITransactionRepository {
 
 	public List<Transaction> findByWallet(UUID walletId) {
 		List<Transaction> transactions = new ArrayList<>();
-		String sql = "SELECT * FROM transactions WHERE wallet_id =? ";
+		String sql = "SELECT tx_uuid, wallet_id, destination_address, amount, fees, priority, status, created_at FROM transactions WHERE wallet_id =? ";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setObject(1, walletId);
@@ -104,7 +104,7 @@ public class TransactionRepository implements ITransactionRepository {
 
 	public List<Transaction> findAllPending() {
 		List<Transaction> transactions = new ArrayList<>();
-		String sql = "SELECT * FROM transactions WHERE status = 'PENDING'";
+		String sql = "SELECT tx_uuid, wallet_id, destination_address, amount, fees, priority, status, created_at FROM transactions WHERE status = 'PENDING'";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			ResultSet rs = stmt.executeQuery();
 

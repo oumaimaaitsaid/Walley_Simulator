@@ -45,7 +45,7 @@ public interface ITransactionsService {
 	 * Mettre à jours le status d'une transaction
 	 */
 
-	boolean updateTransactionStatus(UUID Uuid, Status newStatus);
+	boolean updateTransactionStatus(UUID uuid, Status newStatus);
 
 	/**
 	 * Supprimer une transaction.

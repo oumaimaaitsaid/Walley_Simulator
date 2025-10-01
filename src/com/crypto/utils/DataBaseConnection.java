@@ -6,24 +6,21 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
 
-	private static String URL = ("jdbc:postgresql://localhost:5433/crypto_wallet");
-	private static String USER = "postgres";
-	private static String PASSWORD = "admin";
-	
+	private static String url = ("jdbc:postgresql://localhost:5433/crypto_wallet");
+	private static String user = "postgres";
+	private static String password = "admin";
+
 	private static Connection connection;
-	public static Connection getConnection() throws SQLException{
-		if(connection == null || connection.isClosed()) {
-			try {
-				Class.forName("org.postgresql.Driver");
-				connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				
-			}catch(ClassNotFoundException e) {
-				
-				throw new SQLException("driver not found",e);
-			}
+	private DataBaseConnection() {
+        throw new UnsupportedOperationException("instanciation interdite");
+    }
+	public static Connection getConnection() throws SQLException {
+		if (connection == null || connection.isClosed()) {
+
+			connection = DriverManager.getConnection(url, user, password);
+
 		}
 		return connection;
 	}
 
 }
-

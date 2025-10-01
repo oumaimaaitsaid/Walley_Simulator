@@ -10,11 +10,11 @@ import com.crypto.utils.IdGenerator;
 
 public class MempoolService {
 
-	private final TransactionService transactionService;
 	private final List<Transaction> pendingTrans;
+	private static final Random RANDOM = new Random();
 
 	public MempoolService(TransactionService transactionService) {
-		this.transactionService = transactionService;
+
 		this.pendingTrans = new ArrayList<>();
 	}
 
@@ -31,7 +31,7 @@ public class MempoolService {
 			tr.setDestinationAddress(generateEthereumAddress());
 			tr.setAmount(Math.random() * 1000);
 			tr.setFees(Math.random() * 100);
-			tr.setPriority(Priority.values()[new Random().nextInt(Priority.values().length)]);
+			tr.setPriority(Priority.values()[RANDOM.nextInt(Priority.values().length)]);
 			tr.setStatus(Status.PENDING);
 			tr.setCreatedAt(java.time.LocalDateTime.now());
 
@@ -158,38 +158,35 @@ public class MempoolService {
 		}
 	}
 
-	
 	/**
 	 * Retourne l'état actuel du mempool sous forme de liste de chaînes de
 	 * caractères pour que le main puisse l'afficher
 	 */
 	public List<String> displayMempoolState(UUID userTxUuid) {
-		List<Transaction> sorted =pendingTrans.stream()
-				.filter(tr ->tr.getStatus() == Status.PENDING)
-				.sorted(Comparator.comparingDouble(Transaction::getFees).reversed())
-				.collect(Collectors.toList());
-		
+		List<Transaction> sorted = pendingTrans.stream().filter(tr -> tr.getStatus() == Status.PENDING)
+				.sorted(Comparator.comparingDouble(Transaction::getFees).reversed()).collect(Collectors.toList());
+
 		List<String> lines = new ArrayList<>();
 		lines.add("=== ETAT DU MEMPOOL ===");
 		lines.add("Transactions en attentes :" + sorted.size());
 		lines.add("┌────────────────────────────────────────────┬─────────┐");
-	    lines.add(String.format("│ %-40s │ %-7s │", "Transaction (autres utilisateurs)", "Frais"));
-	    lines.add("├────────────────────────────────────────────┼─────────┤");
+		lines.add(String.format("│ %-40s │ %-7s │", "Transaction (autres utilisateurs)", "Frais"));
+		lines.add("├────────────────────────────────────────────┼─────────┤");
 
-	    
-	    for(Transaction tr : sorted) {
-	    	
-	    	String label = tr.getTxUuid().equals(userTxUuid)
-	    			?">>>> Votre tx :" +tr.getDestinationAddress() .substring(0, 10) + "...."
-	    		    : tr.getDestinationAddress().substring(0,10)+ "... (anonyme)";
-	        lines.add(String.format("│ %-40s │ %6.2f$ │", label, tr.getFees()));
-	    }
+		for (Transaction tr : sorted) {
 
-	    lines.add("└────────────────────────────────────────────┴─────────┘");
-	    return lines;
+			String label = tr.getTxUuid().equals(userTxUuid)
+					? ">>>> Votre tx :" + tr.getDestinationAddress().substring(0, 10) + "...."
+					: tr.getDestinationAddress().substring(0, 10) + "... (anonyme)";
+			lines.add(String.format("│ %-40s │ %6.2f$ │", label, tr.getFees()));
+		}
+
+		lines.add("└────────────────────────────────────────────┴─────────┘");
+		return lines;
 	}
+
 	public void clearMempool() {
-	    pendingTrans.clear();
+		pendingTrans.clear();
 	}
 
 }

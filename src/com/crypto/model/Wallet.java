@@ -14,7 +14,6 @@ public class Wallet {
 	private String address;
 	private  double balance;
 	private LocalDateTime createdAt ;
-	
 
 	public int getId() {return id;}
 	public void setId(int id) {this.id=id;}
