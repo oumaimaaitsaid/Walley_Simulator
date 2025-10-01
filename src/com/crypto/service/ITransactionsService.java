@@ -21,7 +21,7 @@ public interface ITransactionsService {
 	 * @return la transaction créée
 	 */
 
-	Transaction createTransaction(UUID waletId, String destinationAddress, double amount, double fees,
+	Transaction createTransaction(UUID waletId, String destinationAddress, double amount, 
 			Priority priority);
 
 	/**
