@@ -12,7 +12,7 @@ public class MempoolService {
 
 	private final List<Transaction> pendingTrans;
 	private static final Random RANDOM = new Random();
-
+    
 	public MempoolService(TransactionService transactionService) {
 
 		this.pendingTrans = new ArrayList<>();
@@ -188,5 +188,7 @@ public class MempoolService {
 	public void clearMempool() {
 		pendingTrans.clear();
 	}
+	
+	
 
 }
