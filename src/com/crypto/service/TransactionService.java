@@ -1,6 +1,7 @@
 package com.crypto.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,16 +16,19 @@ import com.crypto.repository.WalletRepository;
 import com.crypto.utils.IdGenerator;
 
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class TransactionService implements ITransactionsService {
 
 	private final ITransactionRepository TransactionRepository;
 	private final WalletRepository walletRepository;
+	private final List<Transaction> comfirmedTransaction;
 	private static final Logger logger = Logger.getLogger(TransactionService.class.getName());
 
 	public TransactionService() throws SQLException {
 		this.TransactionRepository = new TransactionRepository();
 		this.walletRepository = new WalletRepository();
+		this.comfirmedTransaction =new ArrayList();
 	}
 
 	@Override
@@ -93,6 +97,14 @@ public class TransactionService implements ITransactionsService {
 	@Override
 	public boolean deleteTransaction(UUID txUuid) {
 		return TransactionRepository.delete(txUuid);
+	}
+	
+	
+	public List<Transaction> getConfirmedTransactionsByWallet(String walletAddress){
+		
+		return comfirmedTransaction.stream().filter(tr->tr.getStatus()== Status.CONFIRMED)
+				.filter(tr->tr.getSourceAddress().equals(walletAddress))
+				.collect(Collectors.toList());
 	}
 
 }

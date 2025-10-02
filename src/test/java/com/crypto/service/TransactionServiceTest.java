@@ -3,11 +3,8 @@ package test.java.com.crypto.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
-
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import com.crypto.model.Enum.Priority;
 import com.crypto.model.Transaction;
 import com.crypto.model.Wallet;

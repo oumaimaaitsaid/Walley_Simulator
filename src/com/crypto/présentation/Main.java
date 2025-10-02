@@ -128,7 +128,7 @@ public class Main {
 				break;
 
 			case 5:
-
+                mempoolService.clearMempool();
 				mempoolService.generateRandomTrans(15);
 				mempoolService.displayMempoolState(lastUserTxUuid).forEach(System.out::println);
 				logger.info("Mempool affiché avec transactions aléatoires");
